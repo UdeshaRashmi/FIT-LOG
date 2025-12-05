@@ -62,10 +62,25 @@ const Login = () => {
   };
 
   const handleDemoLogin = () => {
-    setFormData({
-      email: 'demo@fitlog.com',
-      password: 'demo123'
-    });
+    // perform demo login immediately
+    const doDemo = async () => {
+      setLoading(true);
+      setErrors({});
+      try {
+        const result = await login('demo@fitlog.com', 'demo123');
+        if (result && result.success) {
+          navigate('/dashboard');
+        } else {
+          setErrors({ general: 'Unable to login to demo account.' });
+        }
+      } catch (err) {
+        setErrors({ general: 'Unable to login to demo account.' });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    doDemo();
   };
 
   return (
