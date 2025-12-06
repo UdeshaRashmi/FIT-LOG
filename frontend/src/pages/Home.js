@@ -568,18 +568,8 @@ const Home = () => {
               Join thousands of people who have improved their health with FitLog. Start your journey today!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/dashboard"
-                className="px-8 py-3 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-colors"
-              >
-                Go to Dashboard
-              </Link>
-              <Link
-                to="/activities"
-                className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/30 transition-colors"
-              >
-                Start Tracking
-              </Link>
+              
+              
             </div>
           </div>
         </motion.div>
