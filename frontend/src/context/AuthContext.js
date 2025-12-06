@@ -27,12 +27,39 @@ export const AuthProvider = ({ children }) => {
     return { success: false };
   };
 
+  // register({ name, email, password }) -> tries backend, falls back to mock
+  const register = async ({ name, email, password }) => {
+    // try calling backend if available
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setUser(data.user);
+        return { success: true, user: data.user };
+      }
+      return { success: false, error: data.message || data.error || 'Registration failed' };
+    } catch (err) {
+      // fallback mock registration
+      if (name && email && password) {
+        const userObj = { name, email };
+        setUser(userObj);
+        return { success: true, user: userObj };
+      }
+      return { success: false, error: 'Registration failed (offline)' };
+    }
+  };
+
   const logout = () => setUser(null);
 
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
